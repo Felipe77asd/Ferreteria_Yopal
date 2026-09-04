@@ -4,274 +4,393 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nueva vitrina ferretera</title>
-    <link rel="icon" href="imagenes.jpg/logoferreteria.jpg" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="stylesindex.css">
+    <title>Felipe Alvarez Muñoz | Mi Historia de Vida</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent-color: #38bdf8;
+            --text-color: #f1f5f9;
+            --text-muted: #94a3b8;
+            --gradient: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+
+        /* --- Timeline Styles --- */
+        .timeline {
+            position: relative;
+            max-width: 700px;
+            margin: 0 auto;
+            padding-bottom: 50px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 100%;
+            width: 2px;
+            background: rgba(56, 189, 248, 0.3);
+        }
+
+        .milestone {
+            position: relative;
+            width: 45%;
+            padding: 25px;
+            background: var(--card-bg);
+            border-radius: 15px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .milestone:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-5px);
+        }
+
+        .milestone::after {
+            content: '';
+            position: absolute;
+            top: 30px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            box-shadow: 0 0 0 4px var(--bg-color);
+            z-index: 1;
+        }
+
+        .left {
+            left: 0;
+        }
+
+        .left::after {
+            right: -55px;
+            
+        }
+
+        .right {
+            left: 55%;
+        }
+
+        .right::after {
+            left: -55px;
+        }
+
+        .milestone h3 {
+            color: var(--accent-color);
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .milestone .date {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        /* --- Botones y Galería --- */
+        .gallery-btn {
+            margin-top: 15px;
+            background: transparent;
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .gallery-btn:hover {
+            background: var(--accent-color);
+            color: var(--bg-color);
+        }
+
+        /* Estilos del Modal (Ventana emergente) */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            position: relative;
+            background-color: #0f172a;
+            margin: auto;
+            padding: 30px;
+            border: 1px solid var(--accent-color);
+            border-radius: 15px;
+            width: 90%;
+            max-width: 650px;
+            animation: animatetop 0.4s;
+            text-align: center;
+        }
+
+        @keyframes animatetop {
+            from {
+                top: -300px;
+                opacity: 0
+            }
+
+            to {
+                top: 0;
+                opacity: 1
+            }
+        }
+
+        .close-modal {
+            color: var(--text-muted);
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-modal:hover {
+            color: var(--accent-color);
+        }
+
+        .modal-media {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 2px solid var(--card-bg);
+            display: none;
+            /* Se activa con JS según el tipo */
+        }
+
+        .modal-message {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            font-weight: 500;
+            padding: 12px;
+            background: rgba(56, 189, 248, 0.1);
+            border-radius: 8px;
+        }
+
+        /* Responsivo para móviles */
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 30px;
+            }
+
+            .milestone {
+                width: 100%;
+                left: 0 !important;
+                padding-left: 70px;
+            }
+
+            .milestone::after {
+                left: 20px !important;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-    <!-- NAVBAR -->
-    <header class="navbar">
-        <a href="#" class="logo" onclick="mostrarSeccion('inicio')"> Nueva Vitrina <span> Ferretera </span></a>
-        <nav>
-            <a class="nav-link active" id="link-inicio" onclick="mostrarSeccion('inicio')">Inicio</a>
-            <a class="nav-link" id="link-productos" onclick="mostrarSeccion('productos')">Productos</a>
-            <a class="nav-link" id="link-ubicacion" onclick="mostrarSeccion('ubicacion')">Ubicación</a>
-            <a href="carrito.html" class="cart-icon-btn">
-                🛒 Carrito
-                <span id="cart-count" class="cart-badge">0</span>
-            </a>
-        </nav>
-    </header>
+    <div class="container">
+        <header>
+            <h1>Felipe Alvarez Muñoz</h1>
+            <p>Una vida construida con código, resiliencia, pedales y el amor de mi familia</p>
+        </header>
 
-    <!-- ==================== 1. SECCIÓN INICIO ==================== -->
-    <section id="sec-inicio" class="page-section active-section">
-        <div class="hero-banner">
-            <div class="hero-overlay">
-                <div class="hero-container">
-                    <h1>BIENVENIDO <br><span> NUEVA VITRINA FERRETERA </span></h1>
-                    <p>Ofrecemos materiales de construcción, herramientas eléctricas y suministros de alta calidad con
-                        envíos directos en Casanare.</p>
-                    <button class="btn-hero" onclick="mostrarSeccion('productos')">VER PRODUCTOS</button>
-                </div>
+        <!-- Cronología de Vida -->
+        <div class="timeline">
+
+            <!-- 1. Orígenes -->
+            <div class="milestone left">
+                <div class="date">24 DE JUNIO, 2009</div>
+                <h3>El Comienzo</h3>
+                <p>Nací en Yopal, Casanare, en el hogar de mis padres, <strong>Francisco Alvarez</strong> y
+                    <strong>Esneyda Muñoz</strong>, quienes desde el primer día han sido mi guía, donde mis padres me han enseñado los
+                valores mas importantes para ser alguien bueno en la vida. Donde me enseñan siempre lo importante de vivir con propósito y metas claras.</p>
+                <button class="gallery-btn"
+                    onclick="openModal('img', 'img1', 'Mi familia es mi motor y mi mayor inspiración. ¡Los amo con todo mi corazón!')">
+                    📸 Ver Recuerdo
+                </button>
             </div>
+
+            <!-- 2. Prueba de Fuego / El Accidente -->
+            <div class="milestone right">
+                <div class="date">AÑO 2022</div>
+                <h3>Mi Primer Accidente</h3>
+                <p>Tuve un fuerte accidente de tránsito donde mi tobillo resultó muy afectado. Fueron momentos
+                    difíciles, pero descubrí lo profundamente querido que soy: el apoyo incondicional de mis papás y
+                    familiares me demostró que nunca estuve solo.</p>
+                <button class="gallery-btn"
+                    onclick="openModal('video', 'vid1', 'En los momentos más duros es donde más se siente el verdadero amor de la familia. Gracias por sostenerme.')">
+                    🎬 Ver Recuerdo (Video)
+                </button>
+            </div>
+
+            <!-- 3. El Ciclismo -->
+            <div class="milestone left">
+                <div class="date"> Donde te ves. </div>
+                <h3> Disciplina y constancia </h3>
+                <p> Hablando de metas cortas, me veo en un periodo corto compitiendo a nivel amateur en ciclismo, aunque
+                    se que es dificl pero no sera imposible, con la disciplina y constancia que tengo he logrado mucho
+                    que me pone feliz que si volteo a ver el proceso que llevo quedo totalmente soprendido de todo lo que
+                    he avanzado.</p>
+                <button class="gallery-btn"
+                    onclick="openModal('img', 'img2', 'En la ruta: cada pedalazo es una victoria y una prueba de que siempre se puede seguir adelante. 🚴‍♂️')">
+                    📸 Ver Recuerdo
+                </button>
+            </div>
+
+            <!-- 4.Sueño -->
+            <div class="milestone right">
+                <div class="date"> ¿Que sueño ser?. </div>
+                <h3>El futuro Ingeniero. </h3>
+                <p> Mi sueño y mi meta es ser un gran programador, poder llegar a cumplir todas mis aspiraciones cuando grande,
+                    tener un trabajo estable gracias a la carrera que estudiare, ser uno de los mejores ingenieros en software
+                    y sre un excelente hijo. Quiero lograr tener mi propia empresa, mi sueño es ser mi propio jefe, que al principio es duro
+                    claro que si, pero la meta final es ser mi propio jefe y no depender de nadie, darle todo a mis papas.
+                </p>
+                <button class="gallery-btn"
+                    onclick="openModal('img', 'img3', 'Creando y aprendiendo sin parar: el código es el lienzo donde la lógica cobra vida. 💻')">
+                    📸 Ver Recuerdo
+                </button>
+            </div>
+
         </div>
 
-        <div class="intro-grid">
-            <div class="intro-card">
-                <div class="intro-icon">🛠️</div>
-                <h3>Herramientas Profesionales</h3>
-                <p>Marcas garantizadas para trabajo pesado, construcción e industria.</p>
-            </div>
-            <div class="intro-card">
-                <div class="intro-icon">🚚</div>
-                <h3>Envios a Domicilio </h3>
-                <p>Envíos rápidos y seguros en Casanare.</p>
-            </div>
-            <div class="intro-card">
-                <div class="intro-icon">💬</div>
-                <h3>Atención Directa</h3>
-                <p>Asesoría personalizada y pedidos rápidos vía WhatsApp.</p>
-            </div>
-        </div>
-    </section>
+    </div>
 
-    <!-- ==================== 2. SECCIÓN PRODUCTOS ==================== -->
-    <section id="sec-productos" class="page-section container">
-        <div class="section-title">
-            <h2>Catálogo de Productos</h2>
-            <div class="underline"></div>
-        </div>
+    <!-- Modal Multimedia Dinámico -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
 
-        <!-- Filtro de Categorías -->
-<!-- Botones de Filtro de Categorías -->
-<div class="category-filters">
-    <button class="btn-filter" data-categoria="herramientas">Herramientas</button>
-    <button class="btn-filter" data-categoria="construccion">Construcción</button>
-    <button class="btn-filter" data-categoria="electricos">Eléctricos</button>
-    <button class="btn-filter" data-categoria="tuberia-pvc">Tubería PVC</button>
-    <button class="btn-filter" data-categoria="pinturas">Pinturas</button>
-    <button class="btn-filter" data-categoria="sifones">Sifones y Plomería</button>
-    <button class="btn-filter" data-categoria="registros">Registros y Llaves</button>
-    <button class="btn-filter" data-categoria="mallas">Mallas</button>
-    <button class="btn-filter" data-categoria="seguridad">Seguridad (EPP)</button>
-</div>
-        <!-- Lista de Productos -->
-        <div class="grid-productos">
-            <div class="card-producto" data-categoria="herramientas">
-                <img src="https://images.unsplash.com/photo-1504148455328-c376907d081c?q=80&w=500"
-                    alt="Taladro Percutor">
-                <h3>Taladro Percutor 1/2" 650W</h3>
-                <p class="precio">$245.000 COP</p>
-                <button class="btn-add"
-                    onclick="agregarAlCarrito(1, 'Taladro Percutor 1/2&quot; 650W', 245000, 'https://images.unsplash.com/photo-1504148455328-c376907d081c?q=80&w=500')">
-                    🛒 Agregar al Carrito
-                </button>
-            </div>
-            <!-- Categoría: Tubería PVC -->
-            <div class="card-producto" data-categoria="tuberia-pvc">
-                <img src="imagenes.jpg/tubo-pvc-media.jpg" alt="Tubos PVC 1/2&quot;">
-                <h3>Tubos PVC 1/2"</h3>
-                <p class="precio">$8.000 COP</p>
-                <button class="btn-agregar" onclick="agregarAlCarrito('Tubos PVC 1/2&quot;', 8000, 'imagenes.jpg/tubo-pvc.jpg')">
-                    🛒 Agregar al Carrito
-                </button>
-            </div>
-            <!-- Categoría: Herramientas -->
-            <div class="card-producto" data-categoria="herramientas">
-                <img src="https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?q=80&w=500"
-                    alt="Juego de Llaves">
-                <h3>Set de Llaves Mixtas (12 Pcs)</h3>
-                <p class="precio">$89.000 COP</p>
-                <button class="btn-add"
-                    onclick="agregarAlCarrito(2, 'Set de Llaves Mixtas (12 Pcs)', 89000, 'https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?q=80&w=500')">
-                    🛒 Agregar al Carrito
-                </button>
-            </div>
-            <!-- Categoría: Construcción -->
-            <div class="card-producto" data-categoria="construccion">
-                <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=500" alt="Cemento Gris">
-                <h3>Bulto Cemento Gris 50kg</h3>
-                <p class="precio">$34.000 COP</p>
-                <button class="btn-add"
-                    onclick="agregarAlCarrito(3, 'Bulto Cemento Gris 50kg', 34000, 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=500')">
-                    🛒 Agregar al Carrito
-                </button>
-            </div>
-            <!-- Categoría: Electricidad -->
-            <div class="card-producto" data-categoria="electricidad">
-                <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=500" alt="Cable Eléctrico">
-                <h3>Rollo Cable Eléctrico 100m</h3>
-                <p class="precio">$120.000 COP</p>
-                <button class="btn-add"
-                    onclick="agregarAlCarrito(4, 'Rollo Cable Eléctrico 100m', 120000, 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=500')">
-                    🛒 Agregar al Carrito
-                </button>
-            </div>
-            <!-- Categoría: Pinturas -->
-            <div class="card-producto" data-categoria="pinturas">
-                <img src="https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=500" alt="Pintura Vinilo Tipo 1">
-                <h3>Pintura Vinilo Tipo 1 (1 Galón)</h3>
-                <p class="precio">$65.000 COP</p>
-                <button class="btn-add"
-                    onclick="agregarAlCarrito(5, 'Pintura Vinilo Tipo 1 (1 Galón)', 65000, 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=500')">
-                    🛒 Agregar al Carrito
-                </button>
-            </div>
-            
-            <!-- Categoría: Sifones y Plomería -->
-            <div class="card-producto" data-categoria="sifones">
-                <img src="https://images.unsplash.com/photo-1585704032915-c3400ca199e7?w=500"
-                    alt="Sifón Flexible Lavamanos/Lavatrastes">
-                <h3>Sifón Flexible de Acordeón 1 1/2"</h3>
-                <p class="precio">$12.000 COP</p>
-                <button class="btn-add"
-                    onclick="agregarAlCarrito(6, 'Sifón Flexible de Acordeón 1 1/2 ' , 12000, 'https://images.unsplash.com/photo-1585704032915-c3400ca199e7?w=500')">
-                    🛒 Agregar al Carrito
-                </button>
-            </div>
-            
-            <!-- Categoría: Registros y Llaves -->
-            <div class="card-producto" data-categoria="registros">
-                <img src="https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=500" alt="Llave de Paso / Registro">
-                <h3>Registro de Agua Pesado 1/2" Bola</h3>
-                <p class="precio">$28.000 COP</p>
-                <button class="btn-add"
-                    onclick="agregarAlCarrito(7, 'Registro de Agua Pesado 1/2  Bola' , 28000, 'https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=500')">
-                    🛒 Agregar al Carrito
-                </button>
-            </div>
-            
-            <!-- Categoría: Mallas y Cerramientos -->
-            <div class="card-producto" data-categoria="mallas">
-                <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=500" alt="Malla Eslabonada Galvanizada">
-                <h3>Malla Eslabonada Galvanizada (Rollo)</h3>
-                <p class="precio">$180.000 COP</p>
-                <button class="btn-add"
-                    onclick="agregarAlCarrito(8, 'Malla Eslabonada Galvanizada (Rollo)', 180000, 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=500')">
-                    🛒 Agregar al Carrito
-                </button>
-            </div>
-            
-            <!-- Categoría: Eléctricos -->
-            <div class="card-producto" data-categoria="electricos">
-                <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500" alt="Cable Eléctrico THHN 12">
-                <h3>Cable Eléctrico THHN #12 (Metro)</h3>
-                <p class="precio">$3.500 COP</p>
-                <button class="btn-add"
-                    onclick="agregarAlCarrito(9, 'Cable Eléctrico THHN #12 (Metro)', 3500, 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500')">
-                    🛒 Agregar al Carrito
-                </button>
-            </div>
-            
-            <!-- Categoría Sugerida: Seguridad y Protección (EPP) -->
-            <div class="card-producto" data-categoria="seguridad">
-                <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=500" alt="Casco de Seguridad Industrial">
-                <h3>Casco de Seguridad Industrial Díelectrico</h3>
-                <p class="precio">$25.000 COP</p>
-                <button class="btn-add"
-                    onclick="agregarAlCarrito(10, 'Casco de Seguridad Industrial Díelectrico', 25000, 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=500')">
-                    🛒 Agregar al Carrito
-                </button>
-            </div>
-        </div>
-    </section>
+            <!-- Elemento de Imagen -->
+            <img id="modalImage" class="modal-media" src="" alt="Recuerdo de Felipe">
 
-    <!-- ==================== 3. SECCIÓN UBICACIÓN ==================== -->
-    <section id="sec-ubicacion" class="page-section container">
-        <div class="section-title">
-            <h2>Dónde Encontrarnos</h2>
-            <div class="underline"></div>
-        </div>
+            <!-- Elemento de Video -->
+            <video id="modalVideo" class="modal-media" controls>
+                <source id="videoSource" src="" type="video/mp4">
+                Tu navegador no soporta videos.
+            </video>
 
-        <div class="ubicacion-box">
-            <div class="info-ubi">
-                <h3>Sede Principal Yopal</h3>
-                <div class="info-item">📍 Carrera 19 # 14-59, Yopal, Casanare</div>
-                <div class="info-item">📞 +57 314 8013311</div>
-                <div class="info-item">⏰ Lunes a Sábado: 7:30 AM - 6:00 PM</div>
-                <div class="info-item">⏰ Domingos : 8:00 AM - 2:00 PM</div>
-                <div class="info-item">🚚 Domicilios Proximamente </div>
-                <a href="https://www.google.com/maps/search/?api=1&query=Carrera+19+%2314-59%2C+Yopal%2C+Casanare"
-                    target="_blank"
-                    style="display:inline-block; margin-top:15px; color:#f39c12; font-weight:bold; text-decoration:none;">
-                    🗺️ Abrir en Google Maps →
-                </a>
-            </div>
-            <div>
-                <iframe class="mapa-iframe"
-                    src="https://maps.google.com/maps?q=Carrera%2019%20%2314-59%2C%20Yopal%2C%20Casanare&t=&z=16&ie=UTF8&iwloc=&output=embed"
-                    allowfullscreen="" loading="lazy"></iframe>
-            </div>
+            <!-- Mensaje Descriptivo -->
+            <p id="modalMessage" class="modal-message"></p>
         </div>
-    </section>
+    </div>
 
-    <script src="script.js"></script>
     <script>
-        function mostrarSeccion(id) {
-            document.querySelectorAll('.page-section').forEach(sec => {
-                sec.classList.remove('active-section');
-            });
+        // Base de datos de archivos (Puedes cambiar los enlaces por tus fotos o videos locales)
+        const mediaDatabase = {
+            'img1': { type: 'img', url: 'Familia.jpeg' },
+            'vid1': { type: 'video', url: 'accidente.mp4' }, 
+            'img2': { type: 'img', url: 'Cicla.jpeg' },
+            'img3': { type: 'img', url: 'programador.jpeg' }
+        };
 
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-            });
+        const modal = document.getElementById("myModal");
+        const modalImg = document.getElementById("modalImage");
+        const modalVideo = document.getElementById("modalVideo");
+        const videoSource = document.getElementById("videoSource");
+        const modalMessage = document.getElementById("modalMessage");
 
-            const seccion = document.getElementById('sec-' + id);
-            const link = document.getElementById('link-' + id);
+        function openModal(type, mediaKey, message) {
+            const mediaData = mediaDatabase[mediaKey];
 
-            if (seccion) seccion.classList.add('active-section');
-            if (link) link.classList.add('active');
+            if (mediaData) {
+                modal.style.display = "flex";
+                modalMessage.innerText = message;
+                document.body.style.overflow = "hidden";
 
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function filtrarCategoria(cat, btn) {
-            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-
-            const productos = document.querySelectorAll('.card-producto');
-            productos.forEach(prod => {
-                if (cat === 'todos' || prod.getAttribute('data-categoria') === cat) {
-                    prod.style.display = 'block';
-                } else {
-                    prod.style.display = 'none';
+                if (type === 'img') {
+                    modalVideo.style.display = "none";
+                    modalVideo.pause();
+                    modalImg.style.display = "block";
+                    modalImg.src = mediaData.url;
+                } else if (type === 'video') {
+                    modalImg.style.display = "none";
+                    modalVideo.style.display = "block";
+                    videoSource.src = mediaData.url;
+                    modalVideo.load();
                 }
-            });
+            }
         }
-    </script>
-    <!-- ==================== FOOTER / DERECHOS DE AUTOR ==================== -->
-    <footer class="main-footer">
-        <div class="footer-content">
-            <p>&copy; 2026 Nueva Vitrina Ferretera. Todos los derechos reservados.</p>
-            <p class="footer-subtext">Diseñado para ofrecer la mejor experiencia en materiales y herramientas en Casanare.
-            </p>
-        </div>
-    </footer>
-    
-</body>
 
+        function closeModal() {
+            modal.style.display = "none";
+            modalVideo.pause(); // Pausa el video al cerrar
+            document.body.style.overflow = "auto";
+        }
+
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === "Escape" && modal.style.display === "flex") {
+                closeModal();
+            }
+        });
+    </script>
+
+</body>
 
 </html>
