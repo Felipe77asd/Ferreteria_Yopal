@@ -4,393 +4,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Felipe Alvarez Muñoz | Mi Historia de Vida</title>
-    <style>
-        :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --accent-color: #38bdf8;
-            --text-color: #f1f5f9;
-            --text-muted: #94a3b8;
-            --gradient: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        header h1 {
-            font-size: 3rem;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-            font-weight: 800;
-        }
-
-        header p {
-            color: var(--text-muted);
-            font-size: 1.2rem;
-        }
-
-        /* --- Timeline Styles --- */
-        .timeline {
-            position: relative;
-            max-width: 700px;
-            margin: 0 auto;
-            padding-bottom: 50px;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            height: 100%;
-            width: 2px;
-            background: rgba(56, 189, 248, 0.3);
-        }
-
-        .milestone {
-            position: relative;
-            width: 45%;
-            padding: 25px;
-            background: var(--card-bg);
-            border-radius: 15px;
-            margin-bottom: 40px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-            border: 1px solid transparent;
-        }
-
-        .milestone:hover {
-            border-color: var(--accent-color);
-            transform: translateY(-5px);
-        }
-
-        .milestone::after {
-            content: '';
-            position: absolute;
-            top: 30px;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: var(--accent-color);
-            box-shadow: 0 0 0 4px var(--bg-color);
-            z-index: 1;
-        }
-
-        .left {
-            left: 0;
-        }
-
-        .left::after {
-            right: -55px;
-            
-        }
-
-        .right {
-            left: 55%;
-        }
-
-        .right::after {
-            left: -55px;
-        }
-
-        .milestone h3 {
-            color: var(--accent-color);
-            font-size: 1.4rem;
-            margin-bottom: 10px;
-        }
-
-        .milestone .date {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-
-        /* --- Botones y Galería --- */
-        .gallery-btn {
-            margin-top: 15px;
-            background: transparent;
-            border: 2px solid var(--accent-color);
-            color: var(--accent-color);
-            padding: 8px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .gallery-btn:hover {
-            background: var(--accent-color);
-            color: var(--bg-color);
-        }
-
-        /* Estilos del Modal (Ventana emergente) */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(5px);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            position: relative;
-            background-color: #0f172a;
-            margin: auto;
-            padding: 30px;
-            border: 1px solid var(--accent-color);
-            border-radius: 15px;
-            width: 90%;
-            max-width: 650px;
-            animation: animatetop 0.4s;
-            text-align: center;
-        }
-
-        @keyframes animatetop {
-            from {
-                top: -300px;
-                opacity: 0
-            }
-
-            to {
-                top: 0;
-                opacity: 1
-            }
-        }
-
-        .close-modal {
-            color: var(--text-muted);
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .close-modal:hover {
-            color: var(--accent-color);
-        }
-
-        .modal-media {
-            width: 100%;
-            max-height: 400px;
-            object-fit: cover;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border: 2px solid var(--card-bg);
-            display: none;
-            /* Se activa con JS según el tipo */
-        }
-
-        .modal-message {
-            font-size: 1.1rem;
-            color: var(--text-color);
-            font-weight: 500;
-            padding: 12px;
-            background: rgba(56, 189, 248, 0.1);
-            border-radius: 8px;
-        }
-
-        /* Responsivo para móviles */
-        @media (max-width: 768px) {
-            .timeline::before {
-                left: 30px;
-            }
-
-            .milestone {
-                width: 100%;
-                left: 0 !important;
-                padding-left: 70px;
-            }
-
-            .milestone::after {
-                left: 20px !important;
-            }
-        }
-    </style>
+    <title>Nueva Vitrina Ferretera</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <div class="container">
-        <header>
-            <h1>Felipe Alvarez Muñoz</h1>
-            <p>Una vida construida con código, resiliencia, pedales y el amor de mi familia</p>
-        </header>
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+        <div class="header-inner">
+            <div class="logo">Nueva Vitrina <span>Ferretera</span></div>
 
-        <!-- Cronología de Vida -->
-        <div class="timeline">
+            <nav class="nav" id="mainNav">
+                <button class="nav-link active" data-target="inicio">Inicio</button>
+                <button class="nav-link" data-target="productos">Productos</button>
+                <button class="nav-link" data-target="ubicacion">Ubicación</button>
+            </nav>
 
-            <!-- 1. Orígenes -->
-            <div class="milestone left">
-                <div class="date">24 DE JUNIO, 2009</div>
-                <h3>El Comienzo</h3>
-                <p>Nací en Yopal, Casanare, en el hogar de mis padres, <strong>Francisco Alvarez</strong> y
-                    <strong>Esneyda Muñoz</strong>, quienes desde el primer día han sido mi guía, donde mis padres me han enseñado los
-                valores mas importantes para ser alguien bueno en la vida. Donde me enseñan siempre lo importante de vivir con propósito y metas claras.</p>
-                <button class="gallery-btn"
-                    onclick="openModal('img', 'img1', 'Mi familia es mi motor y mi mayor inspiración. ¡Los amo con todo mi corazón!')">
-                    📸 Ver Recuerdo
-                </button>
+            <button class="cart-btn" id="openCartBtn">
+                <span class="cart-icon">🛒</span> Carrito
+                <span class="cart-count" id="cartCount">0</span>
+            </button>
+
+            <button class="burger" id="burgerBtn" aria-label="Abrir menú">☰</button>
+        </div>
+    </header>
+
+    <!-- ===== INICIO ===== -->
+    <section class="view active" id="inicio">
+        <div class="hero">
+            <div class="hero-inner">
+                <p class="hero-eyebrow">BIENVENIDO</p>
+                <h1 class="hero-title">NUEVA VITRINA<br>FERRETERA</h1>
+                <p class="hero-text">Ofrecemos materiales de construcción, herramientas eléctricas y suministros de alta
+                    calidad con envíos directos en Casanare.</p>
+                <button class="btn-primary" data-target="productos">Ver productos</button>
             </div>
-
-            <!-- 2. Prueba de Fuego / El Accidente -->
-            <div class="milestone right">
-                <div class="date">AÑO 2022</div>
-                <h3>Mi Primer Accidente</h3>
-                <p>Tuve un fuerte accidente de tránsito donde mi tobillo resultó muy afectado. Fueron momentos
-                    difíciles, pero descubrí lo profundamente querido que soy: el apoyo incondicional de mis papás y
-                    familiares me demostró que nunca estuve solo.</p>
-                <button class="gallery-btn"
-                    onclick="openModal('video', 'vid1', 'En los momentos más duros es donde más se siente el verdadero amor de la familia. Gracias por sostenerme.')">
-                    🎬 Ver Recuerdo (Video)
-                </button>
-            </div>
-
-            <!-- 3. El Ciclismo -->
-            <div class="milestone left">
-                <div class="date"> Donde te ves. </div>
-                <h3> Disciplina y constancia </h3>
-                <p> Hablando de metas cortas, me veo en un periodo corto compitiendo a nivel amateur en ciclismo, aunque
-                    se que es dificl pero no sera imposible, con la disciplina y constancia que tengo he logrado mucho
-                    que me pone feliz que si volteo a ver el proceso que llevo quedo totalmente soprendido de todo lo que
-                    he avanzado.</p>
-                <button class="gallery-btn"
-                    onclick="openModal('img', 'img2', 'En la ruta: cada pedalazo es una victoria y una prueba de que siempre se puede seguir adelante. 🚴‍♂️')">
-                    📸 Ver Recuerdo
-                </button>
-            </div>
-
-            <!-- 4.Sueño -->
-            <div class="milestone right">
-                <div class="date"> ¿Que sueño ser?. </div>
-                <h3>El futuro Ingeniero. </h3>
-                <p> Mi sueño y mi meta es ser un gran programador, poder llegar a cumplir todas mis aspiraciones cuando grande,
-                    tener un trabajo estable gracias a la carrera que estudiare, ser uno de los mejores ingenieros en software
-                    y sre un excelente hijo. Quiero lograr tener mi propia empresa, mi sueño es ser mi propio jefe, que al principio es duro
-                    claro que si, pero la meta final es ser mi propio jefe y no depender de nadie, darle todo a mis papas.
-                </p>
-                <button class="gallery-btn"
-                    onclick="openModal('img', 'img3', 'Creando y aprendiendo sin parar: el código es el lienzo donde la lógica cobra vida. 💻')">
-                    📸 Ver Recuerdo
-                </button>
-            </div>
-
         </div>
 
-    </div>
-
-    <!-- Modal Multimedia Dinámico -->
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal()">&times;</span>
-
-            <!-- Elemento de Imagen -->
-            <img id="modalImage" class="modal-media" src="" alt="Recuerdo de Felipe">
-
-            <!-- Elemento de Video -->
-            <video id="modalVideo" class="modal-media" controls>
-                <source id="videoSource" src="" type="video/mp4">
-                Tu navegador no soporta videos.
-            </video>
-
-            <!-- Mensaje Descriptivo -->
-            <p id="modalMessage" class="modal-message"></p>
+        <div class="features">
+            <div class="feature-card">
+                <span class="feature-icon">🔨</span>
+                <h3>Herramientas Profesionales</h3>
+                <p>Marcas garantizadas para trabajo pesado, construcción e industria.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🚚</span>
+                <h3>Envíos a Domicilio</h3>
+                <p>Envíos rápidos y seguros en Casanare.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">💬</span>
+                <h3>Atención Directa</h3>
+                <p>Asesoría personalizada y pedidos rápidos vía WhatsApp.</p>
+            </div>
         </div>
-    </div>
+    </section>
 
-    <script>
-        // Base de datos de archivos (Puedes cambiar los enlaces por tus fotos o videos locales)
-        const mediaDatabase = {
-            'img1': { type: 'img', url: 'Familia.jpeg' },
-            'vid1': { type: 'video', url: 'accidente.mp4' }, 
-            'img2': { type: 'img', url: 'Cicla.jpeg' },
-            'img3': { type: 'img', url: 'programador.jpeg' }
-        };
+    <!-- ===== PRODUCTOS ===== -->
+    <section class="view" id="productos">
+        <div class="section-head">
+            <h2>Nuestros Productos</h2>
+            <p>Filtra por categoría para encontrar lo que necesitas.</p>
+        </div>
 
-        const modal = document.getElementById("myModal");
-        const modalImg = document.getElementById("modalImage");
-        const modalVideo = document.getElementById("modalVideo");
-        const videoSource = document.getElementById("videoSource");
-        const modalMessage = document.getElementById("modalMessage");
+        <div class="category-bar" id="categoryBar"></div>
 
-        function openModal(type, mediaKey, message) {
-            const mediaData = mediaDatabase[mediaKey];
+        <div class="product-grid" id="productGrid"></div>
+    </section>
 
-            if (mediaData) {
-                modal.style.display = "flex";
-                modalMessage.innerText = message;
-                document.body.style.overflow = "hidden";
+    <!-- ===== UBICACIÓN ===== -->
+    <section class="view" id="ubicacion">
+        <div class="section-head">
+            <h2>Dónde Encontrarnos</h2>
+        </div>
 
-                if (type === 'img') {
-                    modalVideo.style.display = "none";
-                    modalVideo.pause();
-                    modalImg.style.display = "block";
-                    modalImg.src = mediaData.url;
-                } else if (type === 'video') {
-                    modalImg.style.display = "none";
-                    modalVideo.style.display = "block";
-                    videoSource.src = mediaData.url;
-                    modalVideo.load();
-                }
-            }
-        }
+        <div class="location-card">
+            <div class="location-info">
+                <h3>Sede Principal Yopal</h3>
+                <p><span class="loc-icon">📍</span> Carrera 19 # 14-59, Yopal, Casanare</p>
+                <p><span class="loc-icon">📞</span> +57 314 801 3311</p>
+                <p><span class="loc-icon">🕐</span> Lunes a Sábado: 7:30 AM – 6:00 PM</p>
+                <p><span class="loc-icon">🕐</span> Domingos: 8:00 AM – 2:00 PM</p>
+                <p><span class="loc-icon">🚛</span> Domicilios próximamente</p>
+                <a class="maps-link"
+                    href="https://www.google.com/maps/search/?api=1&query=Carrera+19+%2314-59+Yopal+Casanare"
+                    target="_blank" rel="noopener">Abrir en Google Maps →</a>
+            </div>
+            <div class="location-map">
+                <iframe src="https://www.google.com/maps?q=Carrera+19+%2314-59,+Yopal,+Casanare&output=embed"
+                    loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+    </section>
 
-        function closeModal() {
-            modal.style.display = "none";
-            modalVideo.pause(); // Pausa el video al cerrar
-            document.body.style.overflow = "auto";
-        }
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <p>© 2026 Nueva Vitrina Ferretera. Todos los derechos reservados.</p>
+        <p class="footer-sub">Diseñado para ofrecer la mejor experiencia en materiales y herramientas en Casanare.</p>
+    </footer>
 
-        window.onclick = function (event) {
-            if (event.target == modal) {
-                closeModal();
-            }
-        }
+    <!-- ===== CART DRAWER ===== -->
+    <div class="overlay" id="overlay"></div>
+    <aside class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h3>Tu carrito</h3>
+            <button class="close-btn" id="closeCartBtn">✕</button>
+        </div>
 
-        document.addEventListener('keydown', function (event) {
-            if (event.key === "Escape" && modal.style.display === "flex") {
-                closeModal();
-            }
-        });
-    </script>
+        <div class="cart-items" id="cartItems"></div>
 
+        <div class="cart-empty" id="cartEmpty">
+            <span>🛒</span>
+            <p>Tu carrito está vacío</p>
+        </div>
+
+        <div class="cart-footer" id="cartFooter">
+            <div class="cart-row">
+                <span>Total</span>
+                <span id="cartTotal">$0</span>
+            </div>
+            <button class="btn-whatsapp" id="checkoutBtn">
+                <span>💬</span> Finalizar compra por WhatsApp
+            </button>
+            <button class="btn-clear" id="clearCartBtn">Vaciar carrito</button>
+        </div>
+    </aside>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script src="script.js"></script>
 </body>
 
 </html>
